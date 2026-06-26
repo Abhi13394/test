@@ -1,38 +1,68 @@
 name: Quadient Staging Import
- 
+
 on:
   push:
-    branches: [ main ]        # triggers on push
-  workflow_dispatch:           # allows manual trigger from GitHub UI
-  
- 
+    branches: [ main ]
+  workflow_dispatch:
+
 jobs:
   deploy:
-    runs-on: [self-hosted, dev1]       # targets your local runner
+    runs-on: [self-hosted, dev1]
     environment: fopdev
- 
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
- 
+
       - name: Run CMD snapshot script
         shell: cmd
         run: |
           scripts\snapshot.bat
 
-      - name: Map network path
+      - name: Map network path and run Import script
         shell: powershell
         env:
           NET_PASSWORD: ${{ secrets.foppassword }}
           NET_USER: ${{ secrets.fopuser }}
         run: |
+          # Test network connectivity
+          Write-Host "Testing connectivity to 18.144.54.120..."
+          Test-NetConnection -ComputerName 18.144.54.120 -Port 445
+
+          # Map network path
+          Write-Host "Attempting to map network path..."
           net use \\18.144.54.120\Storagefop /user:$env:NET_USER $env:NET_PASSWORD
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "Failed to map network path - check credentials and network connectivity"
+            exit 1
+          }
 
-      - name: Wait for network path
-        shell: powershell
-        run: Start-Sleep -Seconds 5
+          # Verify connection and path structure
+          Write-Host "--- Active net use connections ---"
+          net use
 
-      - name: Run PowerShell Import script
-        shell: powershell
-        run: |
+          Write-Host "--- Checking share root ---"
+          Test-Path "\\18.144.54.120\Storagefop"
+
+          Write-Host "--- Listing share root ---"
+          Get-ChildItem "\\18.144.54.120\Storagefop" -ErrorAction SilentlyContinue
+
+          Write-Host "--- Checking Export folder ---"
+          Test-Path "\\18.144.54.120\Storagefop\Export"
+
+          Write-Host "--- Listing Export folder ---"
+          Get-ChildItem "\\18.144.54.120\Storagefop\Export" -ErrorAction SilentlyContinue
+
+          Write-Host "--- Checking date folder ---"
+          $dateFolder = Get-Date -Format "yyyyMMdd"
+          Test-Path "\\18.144.54.120\Storagefop\Export\$dateFolder"
+
+          Write-Host "--- Listing date folder ---"
+          Get-ChildItem "\\18.144.54.120\Storagefop\Export\$dateFolder" -ErrorAction SilentlyContinue
+
+          # Wait for network path to stabilise
+          Start-Sleep -Seconds 5
+
+          # Run Import script
+          Write-Host "Running Import script..."
           .\scripts\Import.ps1
