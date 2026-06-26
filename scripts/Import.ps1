@@ -17,7 +17,7 @@ foreach($line in $csv) {
     $filename = $line.Split(',')[1]
 
     $exportpath = "$dateDir\$filename.chs"
-    $importpath = "C:\AutoDeploy\Import\Staging\$filename.chs"
+    $importpath = "C:\AutoDeploy\Import\$filename.chs"
     
    try {
         Copy-Item -Path $exportpath -Destination $importpath -Force
