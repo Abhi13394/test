@@ -16,7 +16,7 @@ jobs:
       - name: Run PowerShell deployment script
         shell: powershell
         run: |
-          .\scripts\deploy.ps1
+          .\scripts\Export.ps1
  
       - name: Run CMD script
         shell: cmd
