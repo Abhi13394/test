@@ -4,10 +4,12 @@ on:
   push:
     branches: [ main ]        # triggers on push
   workflow_dispatch:           # allows manual trigger from GitHub UI
+  
  
 jobs:
   deploy:
     runs-on: [self-hosted, dev1]       # targets your local runner
+    environment: fopdev
  
     steps:
       - name: Checkout code
@@ -20,7 +22,7 @@ jobs:
 
       - name: Map network path
         shell: powershell
-         env:
+        env:
           NET_PASSWORD: ${{ secrets.foppassword }}
           NET_USER: ${{ secrets.fopuser }}
         run: |
