@@ -3,7 +3,7 @@ param([string]$inputfile = "C:\Storagefop\changesets.csv", [int]$timeout = 15)
 Clear-Host
 $ErrorActionPreference = 'Stop'
 
-$baseDir = "Z:\\"
+$baseDir = "C:\Storagefop\"
 $dateDir = "$baseDir\Export\$([datetime]::Now.ToString('yyyyMMdd'))"
 $csv = Get-Content -Path $inputfile
 $baseUrl = "http://localhost:30600/rest/api/submit-job/csexport?changeset=%changeset%&destination=%destination%"
