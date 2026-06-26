@@ -1,5 +1,5 @@
-param([string]$inputfile = "$PSScriptRoot\ChangeSets.csv", [int]$timeout = 15)
-
+#param([string]$inputfile = "$PSScriptRoot\ChangeSets.csv", [int]$timeout = 15)
+param([string]$inputfile = "C:\AutoDeploy\DeploymentAutomation\Scripts\ChangeSets.csv", [int]$timeout = 15)
 Clear-Host
 $ErrorActionPreference = 'Stop'
 
