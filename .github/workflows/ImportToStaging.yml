@@ -18,6 +18,14 @@ jobs:
         run: |
           scripts\snapshot.bat
 
+      - name: Map network path
+        shell: powershell
+         env:
+          NET_PASSWORD: ${{ secrets.foppassword }}
+          NET_USER: ${{ secrets.fopuser }}
+        run: |
+          net use \\18.144.54.120\Storagefop /user:$env:NET_USER $env:NET_PASSWORD
+
       - name: Run PowerShell Import script
         shell: powershell
         run: |
