@@ -1,0 +1,24 @@
+name: Quadient Deployment
+ 
+on:
+  push:
+    branches: [ main ]        # triggers on push
+  workflow_dispatch:           # allows manual trigger from GitHub UI
+ 
+jobs:
+  deploy:
+    runs-on: self-hosted       # targets your local runner
+ 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+ 
+      - name: Run PowerShell deployment script
+        shell: pwsh
+        run: |
+          .\scripts\deploy.ps1
+ 
+      - name: Run CMD script
+        shell: cmd
+        run: |
+          scripts\some-script.bat
