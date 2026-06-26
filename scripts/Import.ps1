@@ -5,7 +5,7 @@ param([string]$inputfile = "C:\AutoDeploy\changesets.csv", [int]$timeout = 5)
 #$ErrorActionPreference = 'Stop'
 
 #$baseDir = $PSScriptRoot
-$baseDir = "\\18.144.54.120\Storagefop\"
+$baseDir = "\\18.144.54.120\Storagefop"
 $dateDir = "$baseDir\Export\$([datetime]::Now.ToString('yyyyMMdd'))"
 #$dateDir = "$baseDir\Export\"
 $csv = Get-Content -Path $inputfile
