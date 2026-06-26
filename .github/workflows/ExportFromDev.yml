@@ -17,13 +17,3 @@ jobs:
         shell: powershell
         run: |
           .\scripts\Export.ps1
- 
-      - name: Run CMD snapshot script
-        shell: cmd
-        run: |
-          scripts\snapshot.bat
-
-      - name: Run PowerShell Import script
-        shell: powershell
-        run: |
-          .\scripts\Import.ps1
