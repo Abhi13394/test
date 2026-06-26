@@ -21,4 +21,4 @@ jobs:
       - name: Run CMD script
         shell: cmd
         run: |
-          scripts\some-script.bat
+          scripts\snapshot.bat
