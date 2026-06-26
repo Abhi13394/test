@@ -28,6 +28,10 @@ jobs:
         run: |
           net use \\18.144.54.120\Storagefop /user:$env:NET_USER $env:NET_PASSWORD
 
+      - name: Wait for network path
+        shell: powershell
+        run: Start-Sleep -Seconds 5
+
       - name: Run PowerShell Import script
         shell: powershell
         run: |
