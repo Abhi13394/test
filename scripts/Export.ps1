@@ -1,9 +1,9 @@
 #param([string]$inputfile = "$PSScriptRoot\ChangeSets.csv", [int]$timeout = 15)
-param([string]$inputfile = "C:\AutoDeploy\DeploymentAutomation\Scripts\ChangeSets.csv", [int]$timeout = 15)
+param([string]$inputfile = "C:\Storagefop\changesets.csv", [int]$timeout = 15)
 Clear-Host
 $ErrorActionPreference = 'Stop'
 
-$baseDir = $PSScriptRoot
+$baseDir = "C:\Storagefop\"
 $dateDir = "$baseDir\Export\$([datetime]::Now.ToString('yyyyMMdd'))"
 $csv = Get-Content -Path $inputfile
 $baseUrl = "http://localhost:30600/rest/api/submit-job/csexport?changeset=%changeset%&destination=%destination%"
